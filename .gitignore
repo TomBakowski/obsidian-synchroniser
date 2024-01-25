@@ -24,3 +24,8 @@ yarn.lock
 # Ignore OS generated files
 .DS_Store
 Thumbs.db
+
+
+# Ignore .obsidian folder and its content at any nested location
+**/.obsidian/
+.obsynconfig
