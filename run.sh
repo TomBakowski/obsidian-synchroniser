@@ -13,11 +13,6 @@ function sync_branch() {
 
   echo "Branch name: $branch_name"
 
-  # Check for uncommitted changes
-  if ! git -C "$current_dir" diff-index --quiet HEAD --; then
-    echo "Uncommitted changes found. Please commit or stash your changes before syncing."
-    return 1
-  fi
 
   # Check if the branch exists remotely
   if ! git -C "$current_dir" show-ref --quiet --verify "refs/remotes/origin/${current_branch}"; then
@@ -28,10 +23,12 @@ function sync_branch() {
   # Rest of the code...
 }
 
-# Usage: sync_branch [branch_name]
-# If branch_name is not provided, it uses the current branch.
+  # Check for uncommitted changes
+  if ! git -C "$current_dir" diff-index --quiet HEAD --; then
+    echo "Uncommitted changes found. Please commit or stash your changes before syncing."
+    return 1
+  fi
 
-sync_branch
 
 
 
