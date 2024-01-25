@@ -17,7 +17,7 @@ function sync_branch() {
   # Check if the branch exists remotely
   if ! git -C "$current_dir" show-ref --quiet --verify "refs/remotes/origin/${current_branch}"; then
     echo "Remote branch does not exist."
-    return 1
+    exit 1
   fi
 
   # Rest of the code...
@@ -26,16 +26,17 @@ function sync_branch() {
   # Check for uncommitted changes
   if ! git -C "$current_dir" diff-index --quiet HEAD --; then
     echo "Uncommitted changes found. Please commit or stash your changes before syncing."
-    return 1
+     git -C "$current_dir" add .
+     git -C "$current_dir" status
+    commit_message="Syncing branch $current_branch - $(date +%Y-%m-%d)"
+    git -C "$current_dir" commit -m "$commit_message" 
   fi
 
 
 
 
 
-    git -C "$current_dir" add .
-    commit_message="Syncing branch $current_branch - $(date +%Y-%m-%d)"
-    git -C "$current_dir" commit -m "$commit_message" 
+   
 
     # Fetch all branches
     git -C "$current_dir" fetch origin
